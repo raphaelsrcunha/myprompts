@@ -1,0 +1,226 @@
+import Database from 'better-sqlite3';
+import path from 'path';
+
+export interface Prompt {
+  id: number;
+  title: string;
+  content: string;
+  category: string;
+}
+
+export interface Category {
+  id: number;
+  name: string;
+  icon: string;
+  color: string;
+}
+
+let db: Database.Database;
+
+export function getDatabase() {
+  if (!db) {
+    const dbPath = path.join(process.cwd(), 'prompts.db');
+    db = new Database(dbPath);
+    
+    // Criar tabelas se não existirem
+    db.exec(`
+      CREATE TABLE IF NOT EXISTS categorias (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        nome TEXT NOT NULL UNIQUE,
+        icone TEXT NOT NULL,
+        cor TEXT NOT NULL
+      );
+      
+      CREATE TABLE IF NOT EXISTS prompts (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        titulo TEXT NOT NULL,
+        conteudo TEXT NOT NULL,
+        categoria TEXT NOT NULL
+      );
+    `);
+    
+    // Verificar se já tem categorias
+    const catCount = db.prepare('SELECT COUNT(*) as count FROM categorias').get() as { count: number };
+    
+    // Popular categorias padrão se estiver vazio
+    if (catCount.count === 0) {
+      const insertCat = db.prepare('INSERT INTO categorias (nome, icone, cor) VALUES (?, ?, ?)');
+      
+      const categoriasDefault = [
+        { nome: 'Código', icone: 'Code', cor: 'blue' },
+        { nome: 'Produtividade', icone: 'Briefcase', cor: 'green' },
+        { nome: 'Escrita', icone: 'FileText', cor: 'purple' },
+        { nome: 'Análise', icone: 'BarChart', cor: 'orange' },
+        { nome: 'Criatividade', icone: 'Lightbulb', cor: 'pink' },
+      ];
+      
+      for (const cat of categoriasDefault) {
+        insertCat.run(cat.nome, cat.icone, cat.cor);
+      }
+    }
+    
+    // Verificar se já tem dados
+    const count = db.prepare('SELECT COUNT(*) as count FROM prompts').get() as { count: number };
+    
+    // Popular com dados mockados se estiver vazio
+    if (count.count === 0) {
+      const insert = db.prepare('INSERT INTO prompts (titulo, conteudo, categoria) VALUES (?, ?, ?)');
+      
+      const promptsMockados = [
+        {
+          titulo: 'Refatorar código',
+          conteudo: 'Analise o código abaixo e sugira melhorias de legibilidade, performance e boas práticas:\n\n[COLE SEU CÓDIGO AQUI]',
+          categoria: 'Código'
+        },
+        {
+          titulo: 'Criar testes unitários',
+          conteudo: 'Crie testes unitários completos para a seguinte função, incluindo casos de sucesso, erro e edge cases:\n\n[COLE SUA FUNÇÃO AQUI]',
+          categoria: 'Código'
+        },
+        {
+          titulo: 'Explicar conceito técnico',
+          conteudo: 'Explique o conceito de [CONCEITO] de forma clara e didática, com exemplos práticos e analogias simples.',
+          categoria: 'Código'
+        },
+        {
+          titulo: 'Resumir reunião',
+          conteudo: 'Analise a transcrição da reunião abaixo e crie um resumo executivo com:\n- Principais tópicos discutidos\n- Decisões tomadas\n- Action items e responsáveis\n- Próximos passos\n\n[COLE A TRANSCRIÇÃO AQUI]',
+          categoria: 'Produtividade'
+        },
+        {
+          titulo: 'Criar checklist de projeto',
+          conteudo: 'Crie um checklist detalhado para gerenciar um projeto de [TIPO DE PROJETO], incluindo todas as fases desde planejamento até entrega.',
+          categoria: 'Produtividade'
+        },
+        {
+          titulo: 'Escrever email profissional',
+          conteudo: 'Escreva um email profissional para [DESTINATÁRIO] sobre [ASSUNTO], mantendo um tom [FORMAL/CASUAL] e objetivo.',
+          categoria: 'Produtividade'
+        },
+        {
+          titulo: 'Traduzir texto técnico',
+          conteudo: 'Traduza o texto técnico abaixo de [IDIOMA ORIGEM] para [IDIOMA DESTINO], mantendo a precisão dos termos técnicos:\n\n[COLE O TEXTO AQUI]',
+          categoria: 'Escrita'
+        },
+        {
+          titulo: 'Melhorar redação',
+          conteudo: 'Analise o texto abaixo e sugira melhorias de clareza, coesão e gramática sem alterar o significado original:\n\n[COLE SEU TEXTO AQUI]',
+          categoria: 'Escrita'
+        },
+        {
+          titulo: 'Criar conteúdo para redes sociais',
+          conteudo: 'Crie 5 posts para [REDE SOCIAL] sobre [TEMA], com tom [DESCONTRAÍDO/PROFISSIONAL] e incluindo hashtags relevantes.',
+          categoria: 'Escrita'
+        },
+        {
+          titulo: 'Análise de dados',
+          conteudo: 'Analise os dados abaixo e forneça insights, padrões identificados e recomendações estratégicas:\n\n[COLE OS DADOS AQUI]',
+          categoria: 'Análise'
+        },
+        {
+          titulo: 'Comparar alternativas',
+          conteudo: 'Compare as seguintes alternativas [OPÇÃO A] vs [OPÇÃO B] considerando critérios como custo, benefícios, riscos e recomende a melhor escolha.',
+          categoria: 'Análise'
+        },
+        {
+          titulo: 'Brainstorming de ideias',
+          conteudo: 'Gere 10 ideias criativas e inovadoras para [PROBLEMA/OBJETIVO], explorando diferentes ângulos e abordagens.',
+          categoria: 'Criatividade'
+        },
+        {
+          titulo: 'Criar storytelling',
+          conteudo: 'Crie uma narrativa envolvente sobre [TEMA] que conecte emocionalmente com o público e transmita [MENSAGEM].',
+          categoria: 'Criatividade'
+        }
+      ];
+      
+      for (const prompt of promptsMockados) {
+        insert.run(prompt.titulo, prompt.conteudo, prompt.categoria);
+      }
+    }
+  }
+  
+  return db;
+}
+
+export function getAllPrompts(): Prompt[] {
+  const db = getDatabase();
+  return db.prepare('SELECT * FROM prompts ORDER BY categoria, titulo').all() as Prompt[];
+}
+
+export function getPromptsByCategoria(categoria: string): Prompt[] {
+  const db = getDatabase();
+  return db.prepare('SELECT * FROM prompts WHERE categoria = ? ORDER BY titulo').all(categoria) as Prompt[];
+}
+
+export function getCategorias(): string[] {
+  const db = getDatabase();
+  const result = db.prepare('SELECT DISTINCT categoria FROM prompts ORDER BY categoria').all() as { categoria: string }[];
+  return result.map(r => r.categoria);
+}
+
+export function addPrompt(titulo: string, conteudo: string, categoria: string): Prompt {
+  const db = getDatabase();
+  const result = db.prepare('INSERT INTO prompts (titulo, conteudo, categoria) VALUES (?, ?, ?)').run(titulo, conteudo, categoria);
+  return { id: result.lastInsertRowid as number, titulo, conteudo, categoria };
+}
+
+// ========== CRUD de Categorias ==========
+
+export function getAllCategorias(): Categoria[] {
+  const db = getDatabase();
+  return db.prepare('SELECT * FROM categorias ORDER BY nome').all() as Categoria[];
+}
+
+export function getCategoriaById(id: number): Categoria | undefined {
+  const db = getDatabase();
+  return db.prepare('SELECT * FROM categorias WHERE id = ?').get(id) as Categoria | undefined;
+}
+
+export function getCategoriaByNome(nome: string): Categoria | undefined {
+  const db = getDatabase();
+  return db.prepare('SELECT * FROM categorias WHERE nome = ?').get(nome) as Categoria | undefined;
+}
+
+export function addCategoria(nome: string, icone: string, cor: string): Categoria {
+  const db = getDatabase();
+  const result = db.prepare('INSERT INTO categorias (nome, icone, cor) VALUES (?, ?, ?)').run(nome, icone, cor);
+  return { id: result.lastInsertRowid as number, nome, icone, cor };
+}
+
+export function updateCategoria(id: number, nome: string, icone: string, cor: string): void {
+  const db = getDatabase();
+  // Atualizar a categoria
+  db.prepare('UPDATE categorias SET nome = ?, icone = ?, cor = ? WHERE id = ?').run(nome, icone, cor, id);
+  
+  // Atualizar os prompts que usam essa categoria (se o nome mudou)
+  const categoriaAntiga = getCategoriaById(id);
+  if (categoriaAntiga && categoriaAntiga.nome !== nome) {
+    db.prepare('UPDATE prompts SET categoria = ? WHERE categoria = ?').run(nome, categoriaAntiga.nome);
+  }
+}
+
+export function deleteCategoria(id: number): void {
+  const db = getDatabase();
+  const categoria = getCategoriaById(id);
+  
+  if (categoria) {
+    // Deletar os prompts dessa categoria
+    db.prepare('DELETE FROM prompts WHERE categoria = ?').run(categoria.nome);
+    // Deletar a categoria
+    db.prepare('DELETE FROM categorias WHERE id = ?').run(id);
+  }
+}
+
+export function getCategoriasComContagem(): Array<Categoria & { count: number }> {
+  const db = getDatabase();
+  const result = db.prepare(`
+    SELECT c.*, COUNT(p.id) as count
+    FROM categorias c
+    LEFT JOIN prompts p ON c.nome = p.categoria
+    GROUP BY c.id
+    ORDER BY c.nome
+  `).all() as Array<Categoria & { count: number }>;
+  
+  return result;
+}

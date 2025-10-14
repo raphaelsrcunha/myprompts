@@ -7,9 +7,10 @@ interface PromptCardProps {
   title: string;
   content: string;
   category: string;
+  tags?: string;
 }
 
-export default function PromptCard({ title, content, category }: PromptCardProps) {
+export default function PromptCard({ title, content, category, tags }: PromptCardProps) {
   const [copied, setCopied] = useState(false);
 
   const handleCopy = async () => {
@@ -19,33 +20,47 @@ export default function PromptCard({ title, content, category }: PromptCardProps
   };
 
   return (
-    <div className="bg-white dark:bg-gray-900 rounded-2xl p-6 shadow-sm hover:shadow-lg transition-all duration-300 border border-gray-100 dark:border-gray-800 animate-fade-in">
-      <div className="flex justify-between items-start mb-3">
+    <div className="bg-white rounded-2xl p-6 border border-[#d2d2d7]/40 hover:border-[#d2d2d7] transition-all duration-300 hover:shadow-lg hover:shadow-black/5">
+      <div className="flex justify-between items-start mb-4">
         <div>
-          <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-1">
+          <h3 className="text-lg font-medium tracking-tight text-[#1d1d1f] mb-2">
             {title}
           </h3>
-          <span className="inline-block px-3 py-1 text-xs font-medium bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 rounded-full">
+          <span className="inline-block px-3 py-1 text-xs font-normal bg-[#f5f5f7] text-[#1d1d1f] rounded-full">
             {category}
           </span>
         </div>
         
         <button
           onClick={handleCopy}
-          className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200"
+          className="p-2 rounded-lg hover:bg-[#f5f5f7] transition-colors duration-200"
           title="Copy prompt"
         >
           {copied ? (
-            <Check className="w-5 h-5 text-green-600 dark:text-green-400" />
+            <Check className="w-5 h-5 text-[#34c759]" />
           ) : (
-            <Copy className="w-5 h-5 text-gray-400 dark:text-gray-500" />
+            <Copy className="w-5 h-5 text-[#86868b]" />
           )}
         </button>
       </div>
       
-      <p className="text-sm text-gray-600 dark:text-gray-300 leading-relaxed whitespace-pre-wrap">
+      <p className="text-[15px] text-[#86868b] leading-relaxed whitespace-pre-wrap mb-4">
         {content}
       </p>
+
+      {/* Tags */}
+      {tags && tags.trim() !== '' && (
+        <div className="flex flex-wrap gap-2 pt-4 border-t border-[#d2d2d7]/30">
+          {tags.split(',').map((tag, index) => (
+            <span
+              key={index}
+              className="inline-flex items-center px-2.5 py-1 bg-[#f5f5f7] text-[#86868b] rounded-lg text-sm"
+            >
+              {tag.trim()}
+            </span>
+          ))}
+        </div>
+      )}
     </div>
   );
 }

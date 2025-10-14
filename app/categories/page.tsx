@@ -102,10 +102,10 @@ export default function CategoriesPage() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen p-12">
+      <div className="min-h-screen px-16 py-12">
         <div className="max-w-7xl mx-auto">
-          <div className="text-center py-16">
-            <p className="text-lg text-gray-500 dark:text-gray-400">Loading...</p>
+          <div className="text-center py-20">
+            <p className="text-xl text-[#86868b]">Loading...</p>
           </div>
         </div>
       </div>
@@ -123,28 +123,28 @@ export default function CategoriesPage() {
   });
 
   return (
-    <div className="min-h-screen p-12">
+    <div className="min-h-screen px-16 py-12">
       <div className="max-w-7xl mx-auto">
-        <div className="mb-8 flex justify-between items-start">
+        <div className="mb-12 flex justify-between items-start">
           <div>
-            <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-3">
+            <h1 className="text-5xl font-semibold tracking-tight text-[#1d1d1f] mb-4">
               Categories
             </h1>
-            <p className="text-lg text-gray-600 dark:text-gray-400">
+            <p className="text-xl text-[#86868b]">
               Browse through categories and find the perfect prompt for your needs
             </p>
           </div>
           
           <button
             onClick={openCreateModal}
-            className="flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-medium transition-colors duration-200 shadow-lg hover:shadow-xl"
+            className="flex items-center gap-2 px-6 py-3 bg-[#0071e3] hover:bg-[#0077ed] text-white rounded-xl font-normal text-[15px] transition-all duration-200 shadow-sm hover:shadow-md"
           >
-            <Plus className="w-5 h-5" />
+            <Plus className="w-5 h-5" strokeWidth={1.5} />
             New Category
           </button>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-5">
           {categoriesWithIcons.map((category) => (
             <CategoryCard
               key={category.id}
@@ -157,15 +157,15 @@ export default function CategoriesPage() {
         </div>
 
         {categories.length === 0 && (
-          <div className="text-center py-16">
-            <p className="text-lg text-gray-500 dark:text-gray-400 mb-4">
+          <div className="text-center py-20">
+            <p className="text-xl text-[#86868b] mb-6">
               No categories registered yet.
             </p>
             <button
               onClick={openCreateModal}
-              className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-medium transition-colors duration-200 shadow-lg hover:shadow-xl"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-[#0071e3] hover:bg-[#0077ed] text-white rounded-xl font-normal text-[15px] transition-all duration-200 shadow-sm hover:shadow-md"
             >
-              <Plus className="w-5 h-5" />
+              <Plus className="w-5 h-5" strokeWidth={1.5} />
               Create First Category
             </button>
           </div>

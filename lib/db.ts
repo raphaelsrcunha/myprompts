@@ -10,6 +10,7 @@ export interface Prompt {
   createdAt: string;
   likes: number;
   dislikes: number;
+  tags?: string;
 }
 
 export interface Category {
@@ -43,9 +44,22 @@ export function getDatabase() {
         author TEXT NOT NULL,
         createdAt TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
         likes INTEGER NOT NULL DEFAULT 0,
-        dislikes INTEGER NOT NULL DEFAULT 0
+        dislikes INTEGER NOT NULL DEFAULT 0,
+        tags TEXT
       );
     `);
+    
+    // Add tags column if it doesn't exist (migration for existing databases)
+    try {
+      const columns = db.prepare("PRAGMA table_info(prompts)").all() as any[];
+      const hasTagsColumn = columns.some(col => col.name === 'tags');
+      if (!hasTagsColumn) {
+        db.exec('ALTER TABLE prompts ADD COLUMN tags TEXT');
+        console.log('Added tags column to prompts table');
+      }
+    } catch (error) {
+      console.error('Error checking/adding tags column:', error);
+    }
     
     // Check if categories exist
     const catCount = db.prepare('SELECT COUNT(*) as count FROM categories').get() as { count: number };
@@ -219,11 +233,11 @@ export function getCategories(): string[] {
   return result.map(r => r.category);
 }
 
-export function addPrompt(title: string, content: string, category: string, author: string): Prompt {
+export function addPrompt(title: string, content: string, category: string, author: string, tags?: string): Prompt {
   const db = getDatabase();
   const createdAt = new Date().toISOString();
-  const result = db.prepare('INSERT INTO prompts (title, content, category, author, createdAt, likes, dislikes) VALUES (?, ?, ?, ?, ?, 0, 0)').run(title, content, category, author, createdAt);
-  return { id: result.lastInsertRowid as number, title, content, category, author, createdAt, likes: 0, dislikes: 0 };
+  const result = db.prepare('INSERT INTO prompts (title, content, category, author, createdAt, likes, dislikes, tags) VALUES (?, ?, ?, ?, ?, 0, 0, ?)').run(title, content, category, author, createdAt, tags || null);
+  return { id: result.lastInsertRowid as number, title, content, category, author, createdAt, likes: 0, dislikes: 0, tags };
 }
 
 // ========== Category CRUD ==========

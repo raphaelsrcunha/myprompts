@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { User } from 'lucide-react';
+import { User, Trophy } from 'lucide-react';
 
 interface CreatorStats {
   author: string;
@@ -43,44 +43,45 @@ export default function TopCreators() {
 
   if (isLoading) {
     return (
-      <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
-        <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+      <div className="bg-white rounded-2xl p-6 border border-[#d2d2d7]/40">
+        <h3 className="text-lg font-medium tracking-tight text-[#1d1d1f] mb-4">
           Top Creators
         </h3>
-        <p className="text-sm text-gray-500">Loading...</p>
+        <p className="text-[15px] text-[#86868b]">Loading...</p>
       </div>
     );
   }
 
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
-      <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+    <div className="bg-white rounded-2xl p-6 border border-[#d2d2d7]/40">
+      <h3 className="text-lg font-medium tracking-tight text-[#1d1d1f] mb-5 flex items-center gap-2">
+        <Trophy className="w-5 h-5 text-[#0071e3]" strokeWidth={1.5} />
         Top Creators
       </h3>
       
       {topCreators.length === 0 ? (
-        <p className="text-sm text-gray-500">No creators yet</p>
+        <p className="text-[15px] text-[#86868b]">No creators yet</p>
       ) : (
-        <div className="space-y-3">
+        <div className="space-y-2">
           {topCreators.map((creator, index) => (
             <div
               key={creator.author}
-              className="flex items-center gap-3 p-3 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors"
+              className="flex items-center gap-3 p-3 rounded-lg hover:bg-[#f5f5f7] transition-colors"
             >
-              <div className="flex items-center justify-center w-8 h-8 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 font-semibold text-sm">
+              <div className="flex items-center justify-center w-7 h-7 rounded-full bg-[#e8f4fd] text-[#0071e3] font-medium text-sm">
                 {index + 1}
               </div>
               
               <div className="flex-1 min-w-0">
-                <p className="text-sm font-medium text-gray-900 dark:text-white truncate">
+                <p className="text-[15px] font-normal text-[#1d1d1f] truncate">
                   {creator.author}
                 </p>
-                <p className="text-xs text-gray-500 dark:text-gray-400">
+                <p className="text-sm text-[#86868b]">
                   {creator.promptCount} {creator.promptCount === 1 ? 'prompt' : 'prompts'}
                 </p>
               </div>
               
-              <User className="w-4 h-4 text-gray-400" />
+              <User className="w-4 h-4 text-[#86868b]" strokeWidth={1.5} />
             </div>
           ))}
         </div>

@@ -46,23 +46,23 @@ export default function CategoryModal({ isOpen, onClose, onSubmit, initialData, 
   };
 
   return (
-    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4 animate-fade-in">
-      <div className="bg-white dark:bg-gray-900 rounded-3xl p-8 max-w-md w-full shadow-2xl border border-gray-200 dark:border-gray-800 animate-scale-in">
-        <div className="flex justify-between items-center mb-6">
-          <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
+    <div className="fixed inset-0 bg-black/40 backdrop-blur-md flex items-center justify-center z-50 p-4">
+      <div className="bg-white rounded-2xl p-8 max-w-md w-full shadow-xl border border-[#d2d2d7]/40">
+        <div className="flex justify-between items-center mb-8">
+          <h2 className="text-2xl font-semibold tracking-tight text-[#1d1d1f]">
             {title}
           </h2>
           <button
             onClick={onClose}
-            className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+            className="p-2 rounded-lg hover:bg-[#f5f5f7] transition-colors"
           >
-            <X className="w-5 h-5 text-gray-500" />
+            <X className="w-5 h-5 text-[#86868b]" strokeWidth={1.5} />
           </button>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-5">
+        <form onSubmit={handleSubmit} className="space-y-6">
           <div>
-            <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+            <label htmlFor="name" className="block text-[15px] font-normal text-[#1d1d1f] mb-2">
               Category Name
             </label>
             <input
@@ -71,13 +71,13 @@ export default function CategoryModal({ isOpen, onClose, onSubmit, initialData, 
               type="text"
               defaultValue={initialData?.name}
               required
-              className="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 outline-none"
+              className="w-full px-4 py-3 rounded-xl border border-[#d2d2d7]/40 bg-white text-[#1d1d1f] focus:ring-2 focus:ring-[#0071e3] focus:border-[#0071e3] transition-all duration-200 outline-none"
               placeholder="e.g. Design"
             />
           </div>
 
           <div>
-            <label htmlFor="icon" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+            <label htmlFor="icon" className="block text-[15px] font-normal text-[#1d1d1f] mb-2">
               Icon
             </label>
             <select
@@ -85,7 +85,7 @@ export default function CategoryModal({ isOpen, onClose, onSubmit, initialData, 
               name="icon"
               defaultValue={initialData?.icon || 'Bookmark'}
               required
-              className="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 outline-none"
+              className="w-full px-4 py-3 rounded-xl border border-[#d2d2d7]/40 bg-white text-[#1d1d1f] focus:ring-2 focus:ring-[#0071e3] focus:border-[#0071e3] transition-all duration-200 outline-none"
             >
               {iconOptions.map((icon) => (
                 <option key={icon} value={icon}>
@@ -96,7 +96,7 @@ export default function CategoryModal({ isOpen, onClose, onSubmit, initialData, 
           </div>
 
           <div>
-            <label htmlFor="color" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+            <label htmlFor="color" className="block text-[15px] font-normal text-[#1d1d1f] mb-2">
               Color
             </label>
             <select
@@ -104,7 +104,7 @@ export default function CategoryModal({ isOpen, onClose, onSubmit, initialData, 
               name="color"
               defaultValue={initialData?.color || 'blue'}
               required
-              className="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 outline-none"
+              className="w-full px-4 py-3 rounded-xl border border-[#d2d2d7]/40 bg-white text-[#1d1d1f] focus:ring-2 focus:ring-[#0071e3] focus:border-[#0071e3] transition-all duration-200 outline-none"
             >
               {colorOptions.map((color) => (
                 <option key={color.value} value={color.value}>
@@ -117,14 +117,14 @@ export default function CategoryModal({ isOpen, onClose, onSubmit, initialData, 
           <div className="flex gap-3 pt-4">
             <button
               type="submit"
-              className="flex-1 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-medium transition-colors duration-200 shadow-lg hover:shadow-xl"
+              className="flex-1 px-6 py-3 bg-[#0071e3] hover:bg-[#0077ed] text-white rounded-xl font-normal text-[15px] transition-all duration-200 shadow-sm hover:shadow-md"
             >
               Save
             </button>
             <button
               type="button"
               onClick={onClose}
-              className="px-6 py-3 bg-gray-100 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-xl font-medium transition-colors duration-200"
+              className="px-6 py-3 bg-[#f5f5f7] hover:bg-[#e8e8ed] text-[#1d1d1f] rounded-xl font-normal text-[15px] transition-colors duration-200"
             >
               Cancel
             </button>

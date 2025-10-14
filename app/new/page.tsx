@@ -63,21 +63,21 @@ export default function NewPrompt() {
   };
 
   return (
-    <div className="min-h-screen p-12">
+    <div className="min-h-screen px-16 py-12">
       <div className="max-w-3xl mx-auto">
-        <div className="mb-8">
-          <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-3">
+        <div className="mb-12">
+          <h1 className="text-5xl font-semibold tracking-tight text-[#1d1d1f] mb-4">
             New Prompt
           </h1>
-          <p className="text-lg text-gray-600 dark:text-gray-400">
+          <p className="text-xl text-[#86868b]">
             Create a new prompt to add to your collection
           </p>
         </div>
 
-        <div className="bg-white dark:bg-gray-900 rounded-3xl p-8 shadow-lg border border-gray-100 dark:border-gray-800">
-          <form onSubmit={handleSubmit} className="space-y-6">
+        <div className="bg-white rounded-2xl p-8 border border-[#d2d2d7]/40">
+          <form onSubmit={handleSubmit} className="space-y-7">
             <div>
-              <label htmlFor="title" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              <label htmlFor="title" className="block text-[15px] font-normal text-[#1d1d1f] mb-2">
                 Title
               </label>
               <input
@@ -86,13 +86,13 @@ export default function NewPrompt() {
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
                 required
-                className="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 outline-none"
+                className="w-full px-4 py-3 rounded-xl border border-[#d2d2d7]/40 bg-white text-[#1d1d1f] focus:ring-2 focus:ring-[#0071e3] focus:border-[#0071e3] transition-all duration-200 outline-none"
                 placeholder="e.g. Refactor code"
               />
             </div>
 
             <div>
-              <label htmlFor="author" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              <label htmlFor="author" className="block text-[15px] font-normal text-[#1d1d1f] mb-2">
                 Author Name
               </label>
               <input
@@ -101,13 +101,13 @@ export default function NewPrompt() {
                 value={author}
                 onChange={(e) => setAuthor(e.target.value)}
                 required
-                className="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 outline-none"
+                className="w-full px-4 py-3 rounded-xl border border-[#d2d2d7]/40 bg-white text-[#1d1d1f] focus:ring-2 focus:ring-[#0071e3] focus:border-[#0071e3] transition-all duration-200 outline-none"
                 placeholder="e.g. John Doe"
               />
             </div>
 
             <div>
-              <label htmlFor="category" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              <label htmlFor="category" className="block text-[15px] font-normal text-[#1d1d1f] mb-2">
                 Category
               </label>
               <select
@@ -116,7 +116,7 @@ export default function NewPrompt() {
                 onChange={(e) => setCategory(e.target.value)}
                 required
                 disabled={isLoading || categories.length === 0}
-                className="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 outline-none disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full px-4 py-3 rounded-xl border border-[#d2d2d7]/40 bg-white text-[#1d1d1f] focus:ring-2 focus:ring-[#0071e3] focus:border-[#0071e3] transition-all duration-200 outline-none disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {isLoading ? (
                   <option>Loading...</option>
@@ -131,14 +131,14 @@ export default function NewPrompt() {
                 )}
               </select>
               {categories.length === 0 && !isLoading && (
-                <p className="mt-2 text-sm text-orange-600 dark:text-orange-400">
+                <p className="mt-2 text-[15px] text-[#ff9500]">
                   You need to create a category first. <a href="/categories" className="underline">Click here</a> to manage categories.
                 </p>
               )}
             </div>
 
             <div>
-              <label htmlFor="content" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              <label htmlFor="content" className="block text-[15px] font-normal text-[#1d1d1f] mb-2">
                 Prompt Content
               </label>
               <textarea
@@ -147,16 +147,16 @@ export default function NewPrompt() {
                 onChange={(e) => setContent(e.target.value)}
                 required
                 rows={12}
-                className="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 outline-none resize-none"
+                className="w-full px-4 py-3 rounded-xl border border-[#d2d2d7]/40 bg-white text-[#1d1d1f] focus:ring-2 focus:ring-[#0071e3] focus:border-[#0071e3] transition-all duration-200 outline-none resize-none"
                 placeholder="Paste or write your prompt here..."
               />
             </div>
 
-            <div className="flex gap-4 pt-4">
+            <div className="flex gap-3 pt-4">
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="flex-1 px-6 py-3 bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 text-white rounded-xl font-medium transition-colors duration-200 shadow-lg hover:shadow-xl disabled:cursor-not-allowed"
+                className="flex-1 px-6 py-3 bg-[#0071e3] hover:bg-[#0077ed] disabled:bg-[#86868b] text-white rounded-xl font-normal text-[15px] transition-all duration-200 shadow-sm hover:shadow-md disabled:cursor-not-allowed"
               >
                 {isSubmitting ? 'Saving...' : 'Save Prompt'}
               </button>
@@ -164,7 +164,7 @@ export default function NewPrompt() {
               <button
                 type="button"
                 onClick={() => router.back()}
-                className="px-6 py-3 bg-gray-100 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-xl font-medium transition-colors duration-200"
+                className="px-6 py-3 bg-[#f5f5f7] hover:bg-[#e8e8ed] text-[#1d1d1f] rounded-xl font-normal text-[15px] transition-colors duration-200"
               >
                 Cancel
               </button>

@@ -36,27 +36,24 @@ const darkColorGradients: Record<string, { from: string; to: string; icon: strin
 
 export default function CategoryCard({ name, icon: Icon, count, cor = 'blue' }: CategoryCardProps) {
   const colors = colorGradients[cor] || colorGradients.blue;
-  const darkColors = darkColorGradients[cor] || darkColorGradients.blue;
 
   return (
     <Link href={`/category/${encodeURIComponent(name)}`}>
-      <div className="group relative bg-white dark:bg-gray-900 rounded-3xl p-8 shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 dark:border-gray-800 hover:scale-105 cursor-pointer animate-fade-in">
-        <div className="flex flex-col items-center text-center space-y-4">
-          <div className={`p-4 bg-gradient-to-br ${colors.from} ${colors.to} ${darkColors.from} ${darkColors.to} rounded-2xl group-hover:scale-110 transition-transform duration-300`}>
-            <Icon className={`w-10 h-10 ${colors.icon} ${darkColors.icon}`} strokeWidth={1.5} />
+      <div className="group relative bg-white rounded-2xl p-8 border border-[#d2d2d7]/40 hover:border-[#d2d2d7] transition-all duration-300 hover:shadow-lg hover:shadow-black/5 cursor-pointer">
+        <div className="flex flex-col items-center text-center space-y-5">
+          <div className={`p-4 bg-gradient-to-br ${colors.from} ${colors.to} rounded-2xl transition-transform duration-300 group-hover:scale-105`}>
+            <Icon className={`w-9 h-9 ${colors.icon}`} strokeWidth={1.5} />
           </div>
           
           <div>
-            <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-1">
+            <h3 className="text-xl font-medium tracking-tight text-[#1d1d1f] mb-1.5">
               {name}
             </h3>
-            <p className="text-sm text-gray-500 dark:text-gray-400">
+            <p className="text-[15px] text-[#86868b]">
               {count} {count === 1 ? 'prompt' : 'prompts'}
             </p>
           </div>
         </div>
-        
-        <div className={`absolute inset-0 rounded-3xl bg-gradient-to-br from-blue-500/0 to-indigo-500/0 ${colors.overlay} transition-all duration-300`} />
       </div>
     </Link>
   );

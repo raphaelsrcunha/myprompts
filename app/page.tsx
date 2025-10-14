@@ -1,10 +1,11 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Search } from 'lucide-react';
+import { Search, Plus } from 'lucide-react';
 import FeedCard from '@/components/FeedCard';
 import TopCreators from '@/components/TopCreators';
 import MostPopularPrompts from '@/components/MostPopularPrompts';
+import PromptModal from '@/components/PromptModal';
 
 type SearchField = 'title' | 'author' | 'category' | '';
 
@@ -17,6 +18,7 @@ interface Prompt {
   createdAt: string;
   likes: number;
   dislikes: number;
+  tags?: string;
 }
 
 interface Category {
@@ -33,6 +35,7 @@ export default function Home() {
   const [searchQuery, setSearchQuery] = useState('');
   const [filteredPrompts, setFilteredPrompts] = useState<Prompt[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [isPromptModalOpen, setIsPromptModalOpen] = useState(false);
 
   useEffect(() => {
     fetchData();
@@ -91,40 +94,41 @@ export default function Home() {
   if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <div className="text-gray-600 text-lg">Loading...</div>
+        <div className="text-[#86868b] text-lg">Loading...</div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen p-12">
+    <div className="min-h-screen px-16 py-12">
       <div className="max-w-5xl mx-auto">
         {/* Header with New Prompt Button */}
-        <div className="mb-8 flex justify-between items-start">
+        <div className="mb-12 flex justify-between items-start">
           <div>
-            <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-3">
+            <h1 className="text-5xl font-semibold tracking-tight text-[#1d1d1f] mb-4">
               Recent Prompts
             </h1>
-            <p className="text-lg text-gray-600 dark:text-gray-400 mb-6">
+            <p className="text-xl text-[#86868b]">
               Discover the latest prompts from the community
             </p>
           </div>
-          <a
-            href="/new"
-            className="px-6 py-3 bg-blue-500 hover:bg-blue-600 text-white rounded-xl font-medium transition-colors duration-200 whitespace-nowrap"
+          <button
+            onClick={() => setIsPromptModalOpen(true)}
+            className="flex items-center gap-2 px-6 py-3 bg-[#0071e3] hover:bg-[#0077ed] text-white rounded-xl font-normal text-[15px] transition-all duration-200 whitespace-nowrap shadow-sm hover:shadow-md"
           >
-            New Prompt
-          </a>
+            <Plus className="w-5 h-5" strokeWidth={1.5} />
+            Create Prompt
+          </button>
         </div>
 
         {/* Search Bar */}
-        <div className="mb-8">
+        <div className="mb-10">
           <div className="flex gap-3">
             {/* Search Field Dropdown */}
             <select
               value={searchField}
               onChange={(e) => setSearchField(e.target.value as SearchField)}
-              className="px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 outline-none cursor-pointer"
+              className="px-4 py-3 rounded-xl border border-[#d2d2d7]/40 bg-white text-[#1d1d1f] focus:ring-2 focus:ring-[#0071e3] focus:border-[#0071e3] transition-all duration-200 outline-none cursor-pointer"
             >
               <option value="" disabled>Search by</option>
               <option value="title">Prompt Name</option>
@@ -134,7 +138,7 @@ export default function Home() {
 
             {/* Search Input */}
             <div className="flex-1 relative">
-              <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+              <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-[#86868b]" strokeWidth={1.5} />
               <input
                 type="text"
                 value={searchQuery}
@@ -145,7 +149,7 @@ export default function Home() {
                     : `Search by ${searchField === 'title' ? 'prompt name' : searchField === 'author' ? 'author name' : 'category'}...`
                 }
                 disabled={searchField === ''}
-                className="w-full pl-12 pr-4 py-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 outline-none disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full pl-12 pr-4 py-3 rounded-xl border border-[#d2d2d7]/40 bg-white text-[#1d1d1f] placeholder-[#86868b] focus:ring-2 focus:ring-[#0071e3] focus:border-[#0071e3] transition-all duration-200 outline-none disabled:opacity-50 disabled:cursor-not-allowed"
               />
             </div>
           </div>
@@ -153,13 +157,13 @@ export default function Home() {
         
         {/* Results Count */}
         {searchQuery && (
-          <div className="mb-4 text-sm text-gray-600 dark:text-gray-400">
+          <div className="mb-6 text-[15px] text-[#86868b]">
             Found {filteredPrompts.length} {filteredPrompts.length === 1 ? 'prompt' : 'prompts'}
           </div>
         )}
 
         {/* Prompts List */}
-        <div className="space-y-6">
+        <div className="space-y-5">
           {filteredPrompts.length > 0 ? (
             filteredPrompts.map((prompt) => {
               const category = getCategoryByName(prompt.category);
@@ -176,12 +180,13 @@ export default function Home() {
                   categoryColor={category?.color || 'blue'}
                   likes={prompt.likes}
                   dislikes={prompt.dislikes}
+                  tags={prompt.tags}
                 />
               );
             })
           ) : (
-            <div className="text-center py-16">
-              <p className="text-lg text-gray-500 dark:text-gray-400">
+            <div className="text-center py-20">
+              <p className="text-xl text-[#86868b]">
                 No prompts found matching your search.
               </p>
             </div>
@@ -190,10 +195,17 @@ export default function Home() {
       </div>
       
       {/* Fixed Sidebar with Top Creators and Popular Prompts */}
-      <aside className="fixed right-8 top-24 w-[320px] space-y-6">
+      <aside className="fixed right-12 top-28 w-[320px] space-y-5">
         <TopCreators />
         <MostPopularPrompts />
       </aside>
+
+      {/* Prompt Modal */}
+      <PromptModal
+        isOpen={isPromptModalOpen}
+        onClose={() => setIsPromptModalOpen(false)}
+        onSuccess={fetchData}
+      />
     </div>
   );
 }

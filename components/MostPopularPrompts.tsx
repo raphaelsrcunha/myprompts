@@ -43,47 +43,47 @@ export default function MostPopularPrompts() {
 
   if (isLoading) {
     return (
-      <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
-        <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+      <div className="bg-white rounded-2xl p-6 border border-[#d2d2d7]/40">
+        <h3 className="text-lg font-medium tracking-tight text-[#1d1d1f] mb-4">
           Most Popular Prompts
         </h3>
-        <p className="text-sm text-gray-500">Loading...</p>
+        <p className="text-[15px] text-[#86868b]">Loading...</p>
       </div>
     );
   }
 
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
-      <div className="flex items-center gap-2 mb-4">
-        <TrendingUp className="w-5 h-5 text-orange-500" />
-        <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+    <div className="bg-white rounded-2xl p-6 border border-[#d2d2d7]/40">
+      <div className="flex items-center gap-2 mb-5">
+        <TrendingUp className="w-5 h-5 text-[#ff9500]" strokeWidth={1.5} />
+        <h3 className="text-lg font-medium tracking-tight text-[#1d1d1f]">
           Most Popular Prompts
         </h3>
       </div>
       
       {popularPrompts.length === 0 ? (
-        <p className="text-sm text-gray-500">No prompts yet</p>
+        <p className="text-[15px] text-[#86868b]">No prompts yet</p>
       ) : (
-        <div className="space-y-3">
+        <div className="space-y-2">
           {popularPrompts.map((prompt, index) => (
             <div
               key={prompt.id}
-              className="p-3 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors cursor-pointer"
+              className="p-3 rounded-lg hover:bg-[#f5f5f7] transition-colors cursor-pointer"
             >
               <div className="flex items-start gap-3">
-                <div className="flex items-center justify-center w-8 h-8 rounded-full bg-orange-100 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400 font-semibold text-sm flex-shrink-0">
+                <div className="flex items-center justify-center w-7 h-7 rounded-full bg-[#fff3e0] text-[#ff9500] font-medium text-sm flex-shrink-0">
                   {index + 1}
                 </div>
                 
                 <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium text-gray-900 dark:text-white truncate mb-1">
+                  <p className="text-[15px] font-normal text-[#1d1d1f] truncate mb-1">
                     {prompt.title}
                   </p>
-                  <div className="flex items-center gap-2 text-xs text-gray-500 dark:text-gray-400">
+                  <div className="flex items-center gap-2 text-sm text-[#86868b]">
                     <span>{prompt.author}</span>
                     <span>•</span>
                     <div className="flex items-center gap-1">
-                      <ThumbsUp className="w-3 h-3" />
+                      <ThumbsUp className="w-3.5 h-3.5" strokeWidth={1.5} />
                       <span>{prompt.likes}</span>
                     </div>
                   </div>

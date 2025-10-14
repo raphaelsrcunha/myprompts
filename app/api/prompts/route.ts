@@ -3,7 +3,7 @@ import { addPrompt } from '@/lib/db';
 
 export async function POST(request: Request) {
   try {
-    const { title, content, category, author } = await request.json();
+    const { title, content, category, author, tags } = await request.json();
 
     if (!title || !content || !category || !author) {
       return NextResponse.json(
@@ -12,7 +12,7 @@ export async function POST(request: Request) {
       );
     }
 
-    const prompt = addPrompt(title, content, category, author);
+    const prompt = addPrompt(title, content, category, author, tags);
 
     return NextResponse.json(prompt, { status: 201 });
   } catch (error) {

@@ -59,3 +59,24 @@ html {
 ::-webkit-scrollbar-thumb:hover {
   background: #b8b8bd;
 }
+
+/* Custom select dropdown styling */
+select {
+  background-image: none;
+}
+
+select option {
+  padding: 8px 12px;
+  background-color: white;
+  color: #1d1d1f;
+  border-radius: 8px;
+}
+
+select option:hover {
+  background-color: #f5f5f7;
+}
+
+select option:checked {
+  background-color: #0071e3;
+  color: white;
+}

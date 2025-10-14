@@ -6,6 +6,7 @@ import FeedCard from '@/components/FeedCard';
 import TopCreators from '@/components/TopCreators';
 import MostPopularPrompts from '@/components/MostPopularPrompts';
 import PromptModal from '@/components/PromptModal';
+import CustomSelect from '@/components/CustomSelect';
 
 type SearchField = 'title' | 'author' | 'category' | '';
 
@@ -125,16 +126,18 @@ export default function Home() {
         <div className="mb-10">
           <div className="flex gap-3">
             {/* Search Field Dropdown */}
-            <select
+            <CustomSelect
               value={searchField}
-              onChange={(e) => setSearchField(e.target.value as SearchField)}
-              className="px-4 py-3 rounded-xl border border-[#d2d2d7]/40 bg-white text-[#1d1d1f] focus:ring-2 focus:ring-[#0071e3] focus:border-[#0071e3] transition-all duration-200 outline-none cursor-pointer"
-            >
-              <option value="" disabled>Search by</option>
-              <option value="title">Prompt Name</option>
-              <option value="author">Author Name</option>
-              <option value="category">Category</option>
-            </select>
+              onChange={(value) => setSearchField(value as SearchField)}
+              options={[
+                { value: '', label: 'Search by' },
+                { value: 'title', label: 'Prompt Name' },
+                { value: 'author', label: 'Author Name' },
+                { value: 'category', label: 'Category' },
+              ]}
+              placeholder="Search by"
+              className="w-[180px]"
+            />
 
             {/* Search Input */}
             <div className="flex-1 relative">

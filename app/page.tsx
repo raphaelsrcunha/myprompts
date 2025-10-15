@@ -102,7 +102,8 @@ export default function Home() {
 
   return (
     <div className="min-h-screen px-16 py-12">
-      <div className="max-w-5xl mx-auto">
+      {/* Mudar essa largura se sobrepor */}
+      <div className="max-w-4xl mx-auto">
         {/* Header with New Prompt Button */}
         <div className="mb-12 flex justify-between items-start">
           <div>

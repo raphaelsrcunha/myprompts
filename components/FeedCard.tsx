@@ -118,18 +118,26 @@ export default function FeedCard({
   
   const preview = content.length > 150 ? content.substring(0, 150) + '...' : content;
   
+  const getInitial = (name: string) => {
+    return name.charAt(0).toUpperCase();
+  };
+
   return (
     <div className="bg-white rounded-2xl p-6 border border-[#d2d2d7]/40 hover:border-[#d2d2d7] hover:shadow-lg hover:shadow-black/5 transition-all duration-300">
-      {/* Header */}
-      <div className="flex items-start justify-between mb-4">
-        <div className="flex-1">
-          <h3 className="text-lg font-semibold tracking-tight text-[#1d1d1f] mb-2">
-            {title}
-          </h3>
-          <div className="flex items-center gap-3 text-[15px] text-[#86868b]">
-            <span>{author}</span>
-            <span>•</span>
-            <span>{formatDate(createdAt)}</span>
+      {/* Header - Author First */}
+      <div className="flex items-center justify-between mb-4">
+        <div className="flex items-center gap-3">
+          {/* Author Avatar */}
+          <div className="w-10 h-10 rounded-full bg-[#0071e3] flex items-center justify-center">
+            <span className="text-white font-medium text-base">
+              {getInitial(author)}
+            </span>
+          </div>
+          
+          {/* Author Info */}
+          <div className="flex flex-col">
+            <span className="text-[15px] font-medium text-[#1d1d1f]">{author}</span>
+            <span className="text-sm text-[#86868b]">{formatDate(createdAt)}</span>
           </div>
         </div>
         
@@ -162,6 +170,11 @@ export default function FeedCard({
           </button>
         </div>
       </div>
+
+      {/* Title */}
+      <h3 className="text-lg font-semibold tracking-tight text-[#1d1d1f] mb-3">
+        {title}
+      </h3>
       
       {/* Preview */}
       <p className="text-[15px] text-[#86868b] mb-5 leading-relaxed">

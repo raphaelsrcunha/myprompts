@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Home, Grid, FileText, TrendingUp, Bookmark, Star } from 'lucide-react';
+import { Home, Grid, FileText, TrendingUp, Bookmark, Star, GraduationCap, Users, BarChart3, Settings, Lightbulb, Shield } from 'lucide-react';
 
 export default function Sidebar() {
   const pathname = usePathname();
@@ -10,9 +10,9 @@ export default function Sidebar() {
   const isActive = (path: string) => pathname === path;
   
   return (
-    <aside className="fixed left-0 top-16 h-[calc(100vh-4rem)] w-64 bg-white/90 backdrop-blur-xl border-r border-[#d2d2d7]/50 px-5 py-8 flex flex-col">
+    <aside className="fixed left-0 top-16 h-[calc(100vh-4rem)] w-64 bg-white/90 backdrop-blur-xl border-r border-[#d2d2d7]/50 px-5 py-6 flex flex-col overflow-y-auto">
       {/* Navigation */}
-      <nav className="space-y-1">
+      <nav className="space-y-1 flex-1">
         <Link 
           href="/"
           className={`flex items-center gap-3 px-4 py-2.5 rounded-lg transition-all duration-200 ${
@@ -46,7 +46,7 @@ export default function Sidebar() {
           }`}
         >
           <FileText className="w-5 h-5" strokeWidth={1.5} />
-          <span className="font-normal text-[15px]">Prompts</span>
+          <span className="font-normal text-[15px]">All Prompts</span>
         </Link>
         
         <Link 
@@ -84,7 +84,82 @@ export default function Sidebar() {
           <Bookmark className="w-5 h-5" strokeWidth={1.5} />
           <span className="font-normal text-[15px]">My Prompts</span>
         </Link>
+
+        <Link 
+          href="/ai-training"
+          className={`flex items-center gap-3 px-4 py-2.5 rounded-lg transition-all duration-200 ${
+            isActive('/ai-training') 
+              ? 'bg-[#0071e3] text-white' 
+              : 'text-[#86868b] hover:bg-[#0071e3]/10 hover:text-[#0071e3]'
+          }`}
+        >
+          <GraduationCap className="w-5 h-5" strokeWidth={1.5} />
+          <span className="font-normal text-[15px]">AI Training</span>
+        </Link>
+
+        <Link 
+          href="/teams"
+          className={`flex items-center gap-3 px-4 py-2.5 rounded-lg transition-all duration-200 ${
+            isActive('/teams') 
+              ? 'bg-[#0071e3] text-white' 
+              : 'text-[#86868b] hover:bg-[#0071e3]/10 hover:text-[#0071e3]'
+          }`}
+        >
+          <Users className="w-5 h-5" strokeWidth={1.5} />
+          <span className="font-normal text-[15px]">My Teams</span>
+        </Link>
+
+        <Link 
+          href="/analytics"
+          className={`flex items-center gap-3 px-4 py-2.5 rounded-lg transition-all duration-200 ${
+            isActive('/analytics') 
+              ? 'bg-[#0071e3] text-white' 
+              : 'text-[#86868b] hover:bg-[#0071e3]/10 hover:text-[#0071e3]'
+          }`}
+        >
+          <BarChart3 className="w-5 h-5" strokeWidth={1.5} />
+          <span className="font-normal text-[15px]">Analytics</span>
+        </Link>
+
+        <Link 
+          href="/best-practices"
+          className={`flex items-center gap-3 px-4 py-2.5 rounded-lg transition-all duration-200 ${
+            isActive('/best-practices') 
+              ? 'bg-[#0071e3] text-white' 
+              : 'text-[#86868b] hover:bg-[#0071e3]/10 hover:text-[#0071e3]'
+          }`}
+        >
+          <Lightbulb className="w-5 h-5" strokeWidth={1.5} />
+          <span className="font-normal text-[15px]">Best Practices</span>
+        </Link>
+
+        <Link 
+          href="/compliance"
+          className={`flex items-center gap-3 px-4 py-2.5 rounded-lg transition-all duration-200 ${
+            isActive('/compliance') 
+              ? 'bg-[#0071e3] text-white' 
+              : 'text-[#86868b] hover:bg-[#0071e3]/10 hover:text-[#0071e3]'
+          }`}
+        >
+          <Shield className="w-5 h-5" strokeWidth={1.5} />
+          <span className="font-normal text-[15px]">Compliance</span>
+        </Link>
       </nav>
+
+      {/* Bottom Section - Preferences */}
+      <div className="pt-4 border-t border-[#d2d2d7]/30">
+        <Link 
+          href="/settings"
+          className={`flex items-center gap-3 px-4 py-2.5 rounded-lg transition-all duration-200 ${
+            isActive('/settings') 
+              ? 'bg-[#0071e3] text-white' 
+              : 'text-[#86868b] hover:bg-[#0071e3]/10 hover:text-[#0071e3]'
+          }`}
+        >
+          <Settings className="w-5 h-5" strokeWidth={1.5} />
+          <span className="font-normal text-[15px]">Preferences</span>
+        </Link>
+      </div>
     </aside>
   );
 }

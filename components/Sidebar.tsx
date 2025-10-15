@@ -10,7 +10,7 @@ export default function Sidebar() {
   const isActive = (path: string) => pathname === path;
   
   return (
-    <aside className="fixed left-0 top-16 h-[calc(100vh-4rem)] w-64 bg-white/90 backdrop-blur-xl border-r border-[#d2d2d7]/50 px-5 py-6 flex flex-col overflow-y-auto">
+    <aside className="hidden lg:flex fixed left-0 top-16 h-[calc(100vh-4rem)] w-64 bg-white/90 backdrop-blur-xl px-5 py-6 flex-col overflow-y-auto">
       {/* Navigation */}
       <nav className="space-y-1 flex-1">
         <Link 

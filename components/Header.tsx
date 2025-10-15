@@ -1,6 +1,7 @@
 'use client';
 
 import Logo from './Logo';
+import UserMenu from './UserMenu';
 
 export default function Header() {
   // Mock user data
@@ -24,10 +25,8 @@ export default function Header() {
           Welcome, <span className="font-medium text-[#1d1d1f]">{userName}</span>
         </p>
 
-        {/* User Avatar */}
-        <div className="w-9 h-9 rounded-full bg-gradient-to-br from-[#0071e3] to-[#0077ed] flex items-center justify-center text-white font-medium text-sm shadow-sm">
-          {userInitial}
-        </div>
+        {/* User Menu with Avatar */}
+        <UserMenu userName={userName} userInitial={userInitial} />
       </div>
     </header>
   );
